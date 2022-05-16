@@ -13,7 +13,9 @@ const UserProvider = (props) => {
   const [user, setUser] = useState(false);
 
   useEffect(() => {
+    console.log('primer renderizado');
     const unsuscribe = onAuthStateChanged(auth, (user) => {
+      console.log('se ejecuto onAuthStateChanged');
       console.log(user);
 
       if (user) {
