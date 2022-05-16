@@ -10,6 +10,7 @@ import Register from './routes/Register';
 const App = () => {
   const { user } = useContext(UserContext);
 
+  // Una espera del usuario, se demora firebase en ver si el usuario esta autenticado o no y mientras tanto eso pase, yo pinto un loading
   if (user === false) {
     return <p>Loading...</p>;
   }
