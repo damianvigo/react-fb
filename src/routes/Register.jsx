@@ -1,8 +1,10 @@
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/Button';
 import FormError from '../components/FormError';
 import FormInput from '../components/FormInput';
+import Title from '../components/Title';
 import { UserContext } from '../context/UserProvider';
 import { erroresFirebase } from '../utils/erroresFirebase';
 
@@ -41,18 +43,22 @@ const Register = () => {
       /*     if (error.code === 'auth/email-already-in-use') {
         console.log('Usuario ya registrado');
       } */
-      setError('firebase', {
-        message: erroresFirebase(error.code),
+
+      //erroresFirebase ahora retorna un objeto con el codigo y el mensaje
+      const { code, message } = erroresFirebase(error.code);
+      setError(code, {
+        // message: erroresFirebase(error.code),
+        message: message,
       });
     }
   };
 
   return (
     <>
-      <h1>Registrate</h1>
+      <Title text="Regístrate " />
       {/* validacion del backend de firebase */}
       {/* {errors.firebase && <p>{errors.firebase.message}</p>} */}
-      <FormError error={errors.firebase} />
+      {/*   <FormError error={errors.firebase} /> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
           type="email"
@@ -61,6 +67,8 @@ const Register = () => {
             required,
             pattern: patternEmail,
           })}
+          label="Ingresa tu correo"
+          error={errors.email}
         >
           <FormError error={errors.email} />
         </FormInput>
@@ -72,6 +80,8 @@ const Register = () => {
             minLength,
             validate: validateTrim,
           })}
+          label="Ingresa tu contraseña"
+          error={errors.password}
         >
           <FormError error={errors.password} />
         </FormInput>
@@ -80,12 +90,16 @@ const Register = () => {
           type="password"
           placeholder="Repite Password"
           {...register('repassword', {
-            validate: validateEquals(getValues),
+            validate: validateEquals(getValues('password')),
           })}
-        ></FormInput>
-        {/*  {errors.repassword && <p>{errors.repassword.message}</p>} */}
-        <FormError error={errors.repassword} />
-        <button type="submit">Registrate</button>
+          label="Repite tu contraseña"
+          error={errors.repassword}
+        >
+          {/*  {errors.repassword && <p>{errors.repassword.message}</p>} */}
+          <FormError error={errors.repassword} />
+        </FormInput>
+
+        <Button text="Registrate" type="submit" />
       </form>
     </>
   );

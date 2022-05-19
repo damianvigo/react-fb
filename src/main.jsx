@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import UserProvider from './context/UserProvider';
 
+import 'flowbite';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <UserProvider>
     <BrowserRouter>

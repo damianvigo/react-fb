@@ -7,6 +7,8 @@ import { formValidate } from '../utils/formValidate';
 
 import FormError from '../components/FormError';
 import FormInput from '../components/FormInput';
+import Title from '../components/Title';
+import Button from '../components/Button';
 
 const Login = () => {
   const { loginUser } = useContext(UserContext);
@@ -34,15 +36,18 @@ const Login = () => {
       /*     if (error.code === 'auth/email-already-in-use') {
         console.log('Usuario ya registrado');
       } */
-      setError('firebase', {
-        message: erroresFirebase(error.code),
+      //erroresFirebase ahora retorna un objeto con el codigo y el mensaje
+      const { code, message } = erroresFirebase(error.code);
+      setError(code, {
+        // message: erroresFirebase(error.code),
+        message: message,
       });
     }
   };
 
   return (
     <>
-      <h1>Login</h1>
+      <Title text="Iniciar sesión" />
       <FormError error={errors.firebase} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
@@ -52,6 +57,8 @@ const Login = () => {
             required,
             pattern: patternEmail,
           })}
+          label="Ingresa tu correo"
+          error={errors.email}
         >
           <FormError error={errors.email} />
         </FormInput>
@@ -62,12 +69,14 @@ const Login = () => {
             minLength,
             validate: validateTrim,
           })}
+          label="Ingresa tu contraseña"
+          error={errors.password}
         >
           <FormError error={errors.password} />
         </FormInput>
         {/*  {errors.password && <p>{errors.password.message}</p>} */}
         {/* {errors.email && <p>{errors.email.message}</p>} */}
-        <button type="submit">Login</button>
+        <Button text="Acceder" />
       </form>
     </>
   );
