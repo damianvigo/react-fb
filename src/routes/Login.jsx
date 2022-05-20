@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserProvider';
@@ -9,9 +9,11 @@ import FormError from '../components/FormError';
 import FormInput from '../components/FormInput';
 import Title from '../components/Title';
 import Button from '../components/Button';
+import ButtonLoading from '../components/ButtonLoading';
 
 const Login = () => {
   const { loginUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { required, patternEmail, minLength, validateTrim } = formValidate();
 
@@ -29,6 +31,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       await loginUser(data.email, data.password);
       navigate('/');
     } catch (error) {
@@ -42,6 +45,8 @@ const Login = () => {
         // message: erroresFirebase(error.code),
         message: message,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,7 +81,8 @@ const Login = () => {
         </FormInput>
         {/*  {errors.password && <p>{errors.password.message}</p>} */}
         {/* {errors.email && <p>{errors.email.message}</p>} */}
-        <Button text="Acceder" />
+        {/*  {loading ? <ButtonLoading /> : <Button text="Acceder" type="submit" />} */}
+        <Button type="submit" text="Acceder" loading={loading} />
       </form>
     </>
   );

@@ -1,18 +1,20 @@
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
+import { UserContext } from '../context/UserProvider';
+import { erroresFirebase } from '../utils/erroresFirebase';
+
 import FormError from '../components/FormError';
 import FormInput from '../components/FormInput';
 import Title from '../components/Title';
-import { UserContext } from '../context/UserProvider';
-import { erroresFirebase } from '../utils/erroresFirebase';
+import Button from '../components/Button';
+import ButtonLoading from '../components/ButtonLoading';
 
 import { formValidate } from '../utils/formValidate';
 
 const Register = () => {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const { registerUser } = useContext(UserContext);
   const { required, patternEmail, minLength, validateTrim, validateEquals } =
     formValidate();
@@ -34,6 +36,7 @@ const Register = () => {
   const onSubmit = async (data) => {
     // repassword solo para la vista
     try {
+      setLoading(true);
       await registerUser(data.email, data.password);
 
       // console.log('Usuario creado');
@@ -50,6 +53,8 @@ const Register = () => {
         // message: erroresFirebase(error.code),
         message: message,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,7 +104,12 @@ const Register = () => {
           <FormError error={errors.repassword} />
         </FormInput>
 
-        <Button text="Registrate" type="submit" />
+        {/*   {loading ? (
+          <ButtonLoading />
+        ) : (
+          <Button text="Registrate" type="submit" />
+        )} */}
+        <Button type="submit" text="Registrate" loading={loading} />
       </form>
     </>
   );
