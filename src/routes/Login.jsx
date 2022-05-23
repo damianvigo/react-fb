@@ -22,12 +22,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm({
-    defaultValues: {
-      email: 'dvdev1@test.com',
-      password: '123123',
-    },
-  });
+  } = useForm();
 
   const onSubmit = async (data) => {
     try {
@@ -57,7 +52,7 @@ const Login = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
           type="email"
-          placeholder="Ingrese email"
+          placeholder="Email"
           {...register('email', {
             required,
             pattern: patternEmail,
@@ -69,7 +64,7 @@ const Login = () => {
         </FormInput>
         <FormInput
           type="password"
-          placeholder="Ingrese Password"
+          placeholder="Contraseña"
           {...register('password', {
             minLength,
             validate: validateTrim,

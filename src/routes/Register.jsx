@@ -25,13 +25,7 @@ const Register = () => {
     formState: { errors },
     getValues,
     setError,
-  } = useForm({
-    defaultValues: {
-      email: 'dvdev1@test.com',
-      password: '123123',
-      repassword: '123123',
-    },
-  });
+  } = useForm();
 
   const onSubmit = async (data) => {
     // repassword solo para la vista
@@ -67,7 +61,7 @@ const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
           type="email"
-          placeholder="Ingrese email"
+          placeholder="Email"
           {...register('email', {
             required,
             pattern: patternEmail,
@@ -80,12 +74,12 @@ const Register = () => {
         {/* {errors.email && <p>{errors.email.message}</p>} */}
         <FormInput
           type="password"
-          placeholder="Ingrese Password"
+          placeholder="Contraseña"
           {...register('password', {
             minLength,
             validate: validateTrim,
           })}
-          label="Ingresa tu contraseña"
+          label="Ingresa tu Contraseña"
           error={errors.password}
         >
           <FormError error={errors.password} />
@@ -93,7 +87,7 @@ const Register = () => {
         {/*  {errors.password && <p>{errors.password.message}</p>} */}
         <FormInput
           type="password"
-          placeholder="Repite Password"
+          placeholder="Repite tu Contraseña"
           {...register('repassword', {
             validate: validateEquals(getValues('password')),
           })}
