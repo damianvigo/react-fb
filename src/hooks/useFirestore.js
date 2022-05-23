@@ -2,16 +2,16 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
   updateDoc,
   where,
 } from 'firebase/firestore/lite';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { db, auth } from '../firebase';
 import { nanoid } from 'nanoid';
-import { async } from '@firebase/util';
 
 export const useFirestore = () => {
   const [data, setData] = useState([]);
@@ -33,7 +33,7 @@ export const useFirestore = () => {
       const dataDB = querySnapshot.docs.map((doc) => doc.data());
       setData(dataDB);
     } catch (error) {
-      console.log(error);
+      //  console.log(error);
       setError(error.message);
     } finally {
       setLoading((prev) => ({ ...prev, getData: false }));
@@ -55,7 +55,7 @@ export const useFirestore = () => {
       setData((prev) => [...prev, newDoc]);
       /*   setData([...data, newDoc]); */
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setError(error.message);
     } finally {
       setLoading((prev) => ({ ...prev, addData: false }));
@@ -70,7 +70,7 @@ export const useFirestore = () => {
       await deleteDoc(docRef);
       setData(data.filter((item) => item.nanoid !== nanoid));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setError(error.message);
     } finally {
       setLoading((prev) => ({ ...prev, [nanoid]: false }));
@@ -89,10 +89,21 @@ export const useFirestore = () => {
         )
       );
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setError(error.message);
     } finally {
       setLoading((prev) => ({ ...prev, updateData: false }));
+    }
+  };
+
+  const searchData = async (nanoid) => {
+    try {
+      const docRef = doc(db, 'urls', nanoid);
+      const docSnap = await getDoc(docRef);
+      return docSnap;
+    } catch (error) {
+      // console.log(error);
+      setError(error.message);
     }
   };
 
@@ -104,5 +115,6 @@ export const useFirestore = () => {
     addData,
     deleteData,
     updateData,
+    searchData,
   };
 };

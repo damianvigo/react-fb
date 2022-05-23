@@ -11,7 +11,7 @@ const LayoutRequireAuth = (/* props */) => {
 
   /* return props.children; */
   return (
-    <div className="container mx-auto">
+    <div className="container  sm:max-w-lg md:max-w-2xl mx-auto">
       <Outlet />
     </div>
   );

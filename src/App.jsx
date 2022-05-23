@@ -11,8 +11,9 @@ import NotFound from './routes/NotFound';
 
 // Components
 import LayoutContainerForm from './components/layouts/LayoutContainerForm';
-import Navbar from './components/Navbar';
 import LayoutRequireAuth from './components/layouts/LayoutRequireAuth';
+import LayoutRedirect from './components/layouts/LayoutRedirect';
+import Navbar from './components/Navbar';
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -42,7 +43,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <div>
       <Navbar />
       <Routes>
         {/*    <Route
@@ -64,9 +65,11 @@ const App = () => {
           <Route path="/register" element={<Register />} />
         </Route>
 
-        <Route path="*" element={<NotFound />} />
+        <Route path="/:nanoid" element={<LayoutRedirect />}>
+          <Route path="*" index element={<NotFound />} />
+        </Route>
       </Routes>
-    </>
+    </div>
   );
 };
 
