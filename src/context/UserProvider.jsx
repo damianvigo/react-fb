@@ -13,10 +13,10 @@ const UserProvider = (props) => {
   const [user, setUser] = useState(false);
 
   useEffect(() => {
-    console.log('primer renderizado');
+    // console.log('primer renderizado');
     // onAuthStateChanged es un observable es decir un metodo que va a estar pendiente de algun cambio del usuario
     const unsuscribe = onAuthStateChanged(auth, (user) => {
-      console.log('se ejecuto onAuthStateChanged');
+      // console.log('se ejecuto onAuthStateChanged');
       // console.log(user);
 
       if (user) {

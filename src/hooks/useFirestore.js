@@ -22,7 +22,7 @@ export const useFirestore = () => {
   const getData = async () => {
     /* Informacion del usuario 
     console.log(auth.currentUser); */
-    console.log(auth.currentUser);
+    // console.log(auth.currentUser);
     try {
       setLoading((prev) => ({ ...prev, getData: true }));
       const dataRef = collection(db, 'urls');
